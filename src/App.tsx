@@ -1,32 +1,66 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  let name: string;
+  let age: number | string;
+  let isStudent: boolean;
+  let hobbies: string[];
+  let role: [number, string];
+
+
+  type PersonProps = {
+    name: string;
+    age: number;
+  }
+
+  let person: Object = {
+    name: "ez",
+    age: 29
+  }
+
+  let lotsOfPeople: PersonProps[];
+
+  let printName: (name: string) => void; // returns undefined
+  let printName1: (name: string) => never; // return nothing / doest not return anything 
+
+  // function printName(name: string) {
+  //   console.log(name);
+  // }
+
+  let personName: unknown;
+
+
+  type X = {
+    a: string;
+    b: number;
+  }
+
+  type Y = X & {
+    c: string;
+    d: number;
+  }
+
+  let y: Y = {
+    c: "efdas",
+    d: 42,
+  }
+
+
+  interface Person {
+    name: string;
+    age?: number;
+  }
+
+  interface Guy extends Person {
+    profession: string;
+  }
+
+  console.log(x)
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+        Hello World!
       </p>
     </>
   )
