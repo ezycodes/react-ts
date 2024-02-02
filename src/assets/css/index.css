@@ -59,6 +59,7 @@ form {
 
 .todos__single {
   @apply bg-blue-600 py-2 px-4 flex justify-between items-center flex-row gap-4 
+  text-blue-50
 }
 
 .todos__single--text {

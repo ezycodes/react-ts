@@ -1,5 +1,5 @@
 import { TodoProps } from "@/types/types"
-import { Delete, Edit } from "lucide-react";
+import { Check, Delete, Edit, Trash, Trash2 } from "lucide-react";
 
 interface SingleTodoProps {
   todo: TodoProps;
@@ -13,8 +13,18 @@ const SingleTodo: React.FC<SingleTodoProps> = ({ todo, todos, setTodos }) => {
       <span className="todos__single--text">{todo.todo}</span>
 
       <div className="flex justify-end items-center flex-row gap-2">
-        <Edit />
-        <Delete />
+        <button className="p-1 bg-blue-600 hover:bg-blue-700">
+          <Edit />
+        </button>
+
+        <button className="p-1 bg-blue-600 hover:bg-blue-700">
+          <Trash2 />
+        </button>
+
+        <button className="p-1 bg-blue-600 hover:bg-blue-700">
+          <Check />
+        </button>
+
       </div>
     </form>
   )
