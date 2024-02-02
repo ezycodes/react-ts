@@ -15,8 +15,33 @@ body {
   bg-blue-950
 }
 
+form {
+  @apply max-w-screen-sm w-full mx-auto
+}
+
+
+#root {
+  @apply max-w-screen-xl w-screen mx-auto text-center h-full
+}
+
+.App {
+  @apply max-w-screen-xl mx-auto w-full h-full flex flex-col items-center font-inter p-8
+  /* bg-blue-300  */
+}
+
+/* .container {
+  @apply max-w-screen-xl w-full mx-auto
+} */
+
+.heading {
+  @apply uppercase text-lg lg:text-xl my-4 lg:my-8 mx-0 z-10 text-center
+  w-full text-blue-50
+  /* border border-red-500  */
+}
+
+
 .input {
-  @apply max-w-screen-sm w-full 
+  @apply 
   flex justify-start items-center flex-row gap-3
 }
 
@@ -25,5 +50,17 @@ body {
 }
 
 .input__submit {
-  @apply w-fit px-4 py-2 rounded bg-blue-800 text-blue-50
+  @apply w-fit px-4 py-2 rounded bg-blue-800 text-blue-50 hover:bg-blue-700
+}
+
+.todos {
+  @apply flex justify-start items-start w-full flex-col gap-2
+}
+
+.todos__single {
+  @apply bg-blue-600 py-2 px-4 flex justify-between items-center flex-row gap-4 
+}
+
+.todos__single--text {
+  @apply text-blue-50
 }
