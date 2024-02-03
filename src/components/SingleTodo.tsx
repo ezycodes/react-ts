@@ -1,6 +1,6 @@
 import { TodoProps } from "@/types/types"
 import { Check, Edit, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface SingleTodoProps {
   todo: TodoProps;
@@ -17,22 +17,40 @@ const SingleTodo = ({ todo, todos, setTodos }: SingleTodoProps) => {
       todo.id === id ? { ...todo, isDone: !todo.isDone } : todo))
   }
 
-  const handleEdit = (e: React.FormEvent, id: number) => {
-    e.preventDefault();
+  const handleEdit = (id: number) => {
+    // e.preventDefault();
     setTodos(
       todos.map((todo) => (todo.id === id ? { ...todo, todo: editTodo } : todo))
     )
     setEdit(false)
   }
 
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [edit]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleEdit(todo.id);
+    }
+  };
+
   const handleDelete = (id: number) => {
     setTodos(todos.filter((todo) => todo.id !== id))
   }
 
   return (
-    <form className="todos__single" onSubmit={(e) => handleEdit(e, todo.id)} >
+    <form className="todos__single" onSubmit={(e) => {
+      e.preventDefault();
+      handleEdit(todo.id)
+    }} >
       {edit ? (
         <input value={editTodo}
+          ref={inputRef}
+          onKeyDown={handleKeyDown}
           onChange={(e) => setEditTodo(e.target.value)}
           className="input__box text-slate-900" />
       ) : todo.isDone ? (
@@ -43,8 +61,9 @@ const SingleTodo = ({ todo, todos, setTodos }: SingleTodoProps) => {
 
 
       <div className="flex justify-end items-center flex-row gap-2">
-        <button onClick={() => {
-          if (!edit && !todo.isDone) { setEdit((prev) => !prev); console.log(edit) }
+        <button type="button" onClick={(e) => {
+          e.preventDefault();
+          if (!edit && !todo.isDone) { setEdit(!edit) }
         }}
           className="p-1 bg-blue-600 hover:bg-blue-700">
           <Edit />
