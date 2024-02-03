@@ -35,7 +35,6 @@ const SingleTodo = ({ todo, todos, setTodos }: SingleTodoProps) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       handleEdit(todo.id);
-
     }
   };
 
