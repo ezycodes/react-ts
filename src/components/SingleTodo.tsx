@@ -43,10 +43,7 @@ const SingleTodo = ({ todo, todos, setTodos }: SingleTodoProps) => {
   }
 
   return (
-    <form className="todos__single" onSubmit={(e) => {
-      e.preventDefault();
-      handleEdit(todo.id)
-    }} >
+    <form className="todos__single">
       {edit ? (
         <input value={editTodo}
           ref={inputRef}
