@@ -41,7 +41,7 @@ form {
 
 
 .input {
-  @apply 
+  @apply w-full
   flex justify-start items-center flex-row gap-3
 }
 
@@ -59,9 +59,9 @@ form {
 
 .todos__single {
   @apply bg-blue-600 py-2 px-4 flex justify-between items-center flex-row gap-4 
-  text-blue-50
+  text-blue-50 hover:scale-[102%] duration-200
 }
 
 .todos__single--text {
-  @apply text-blue-50
+  @apply text-blue-50 
 }

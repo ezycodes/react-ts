@@ -1,14 +1,16 @@
 import { TodoProps } from "@/types/types"
 import { Check, Edit, Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { Draggable } from "react-beautiful-dnd";
 
 interface SingleTodoProps {
+  index: number;
   todo: TodoProps;
   todos: TodoProps[];
   setTodos: React.Dispatch<React.SetStateAction<TodoProps[]>>
 }
 
-const SingleTodo = ({ todo, todos, setTodos }: SingleTodoProps) => {
+const SingleTodo = ({ index, todo, todos, setTodos }: SingleTodoProps) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editTodo, setEditTodo] = useState<string>(todo.todo);
 
@@ -43,47 +45,55 @@ const SingleTodo = ({ todo, todos, setTodos }: SingleTodoProps) => {
   }
 
   return (
-    <form className="todos__single">
-      {edit ? (
-        <input value={editTodo}
-          ref={inputRef}
-          onKeyDown={handleKeyDown}
-          onChange={(e) => setEditTodo(e.target.value)}
-          className="input__box text-slate-900" />
-      ) : todo.isDone ? (
-        <s className="todos__single--text">{todo.todo}</s>
-      ) : (
-        <span className="todos__single--text">{todo.todo}</span>
+    <Draggable draggableId={todo.id.toString()} index={index}>
+      {(provided) => (
+        <form className="todos__single"
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+        >
+          {edit ? (
+            <input value={editTodo}
+              ref={inputRef}
+              onKeyDown={handleKeyDown}
+              onChange={(e) => setEditTodo(e.target.value)}
+              className="input__box text-slate-900" />
+          ) : todo.isDone ? (
+            <s className="todos__single--text">{todo.todo}</s>
+          ) : (
+            <span className="todos__single--text">{todo.todo}</span>
+          )}
+
+
+          <div className="flex justify-end items-center flex-row gap-2">
+            <button type="button" onClick={(e) => {
+              e.preventDefault();
+              if (!edit && !todo.isDone) { setEdit(!edit) }
+            }}
+              className="p-1 bg-blue-600 hover:bg-blue-700">
+              <Edit />
+            </button>
+
+            <button onClick={(e) => {
+              e.preventDefault()
+              handleDelete(todo.id)
+            }}
+              className="p-1 bg-blue-600 hover:bg-blue-700">
+              <Trash2 />
+            </button>
+
+            <button onClick={(e) => {
+              e.preventDefault()
+              handleDone(todo.id)
+            }}
+              className="p-1 bg-blue-600 hover:bg-blue-700">
+              <Check />
+            </button>
+
+          </div>
+        </form>
       )}
-
-
-      <div className="flex justify-end items-center flex-row gap-2">
-        <button type="button" onClick={(e) => {
-          e.preventDefault();
-          if (!edit && !todo.isDone) { setEdit(!edit) }
-        }}
-          className="p-1 bg-blue-600 hover:bg-blue-700">
-          <Edit />
-        </button>
-
-        <button onClick={(e) => {
-          e.preventDefault()
-          handleDelete(todo.id)
-        }}
-          className="p-1 bg-blue-600 hover:bg-blue-700">
-          <Trash2 />
-        </button>
-
-        <button onClick={(e) => {
-          e.preventDefault()
-          handleDone(todo.id)
-        }}
-          className="p-1 bg-blue-600 hover:bg-blue-700">
-          <Check />
-        </button>
-
-      </div>
-    </form>
+    </Draggable>
   )
 }
 
