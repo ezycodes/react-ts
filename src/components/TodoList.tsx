@@ -6,24 +6,24 @@ import { Droppable } from 'react-beautiful-dnd';
 interface TodosProps {
   todos: TodoProps[];
   setTodos: React.Dispatch<React.SetStateAction<TodoProps[]>>;
-  completedTodos: TodoProps[];
+  CompletedTodos: TodoProps[];
   setCompletedTodos: React.Dispatch<React.SetStateAction<TodoProps[]>>;
 }
 
 
 const TodoList: React.FC<TodosProps> = (
-  { todos, setTodos, completedTodos, setCompletedTodos }) => {
+  { todos, setTodos, CompletedTodos, setCompletedTodos }) => {
   return (
 
     <div className='w-full grid grid-cols-2 gap-4'>
-      <div className='col-span-2 md:col-span-1 bg-blue-400 p-4'>
-        <Droppable droppableId='TodosList'>
-          {(provided) => (
-            <div className='todos'
+      <Droppable droppableId="TodosList">
+        {(provided, snapshot) => (
+          <div className='col-span-2 md:col-span-1 bg-blue-400 p-4'>
+            <div className={`todos ${snapshot.isDraggingOver ? "dragactive" : ""}`}
               ref={provided.innerRef}
               {...provided.droppableProps}>
               <h1 className='text-xl font-bold mb-3'>Active tasks</h1>
-              {todos.map((todo, index) => (
+              {todos?.map((todo, index) => (
                 <SingleTodo key={todo.id}
                   index={index}
                   todo={todo}
@@ -32,32 +32,34 @@ const TodoList: React.FC<TodosProps> = (
               ))}
               {provided.placeholder}
             </div>
-          )}
-        </Droppable>
-      </div>
+          </div>
+        )}
+      </Droppable>
 
-      <div className='col-span-2 md:col-span-1 bg-blue-300 p-4'>
-        <Droppable droppableId='TodosRemove'>
-          {(provided) => (
-            <div className='todos'
+      <Droppable droppableId='CompletedTodos'>
+        {(provided, snapshot) => (
+          <div className='col-span-2 md:col-span-1 bg-blue-300 p-4'>
+            <div className={`todos  ${snapshot.isDraggingOver ? "dragcomplete" : "remove"
+              }`}
               ref={provided.innerRef}
-              {...provided.droppableProps}>
+              {...provided.droppableProps}
+            // {...provided.droppableProps}
+            >
               <h1 className='text-xl font-bold mb-3'>Completed tasks</h1>
-              {completedTodos.map((todo, index) => (
+              {CompletedTodos?.map((todo, index) => (
                 <SingleTodo
                   index={index}
                   key={todo.id}
                   todo={todo}
-                  todos={completedTodos}
+                  todos={CompletedTodos}
                   setTodos={setCompletedTodos} />
               ))}
               {provided.placeholder}
             </div>
-          )}
+          </div>
+        )}
 
-        </Droppable>
-      </div>
-
+      </Droppable>
     </div >
 
   )

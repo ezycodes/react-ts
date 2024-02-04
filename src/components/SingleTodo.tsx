@@ -10,7 +10,8 @@ interface SingleTodoProps {
   setTodos: React.Dispatch<React.SetStateAction<TodoProps[]>>
 }
 
-const SingleTodo = ({ index, todo, todos, setTodos }: SingleTodoProps) => {
+const SingleTodo = (
+  { index, todo, todos, setTodos }: SingleTodoProps) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editTodo, setEditTodo] = useState<string>(todo.todo);
 
@@ -20,7 +21,6 @@ const SingleTodo = ({ index, todo, todos, setTodos }: SingleTodoProps) => {
   }
 
   const handleEdit = (id: number) => {
-    // e.preventDefault();
     setTodos(
       todos.map((todo) => (todo.id === id ? { ...todo, todo: editTodo } : todo))
     )
@@ -46,8 +46,9 @@ const SingleTodo = ({ index, todo, todos, setTodos }: SingleTodoProps) => {
 
   return (
     <Draggable draggableId={todo.id.toString()} index={index}>
-      {(provided) => (
-        <form className="todos__single"
+      {(provided, snapshot) => (
+        <form
+          className={`todos__single ${snapshot.isDragging ? "drag" : ""}`}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
@@ -98,3 +99,5 @@ const SingleTodo = ({ index, todo, todos, setTodos }: SingleTodoProps) => {
 }
 
 export default SingleTodo
+
+
